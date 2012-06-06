@@ -1,0 +1,13 @@
+c:\users\devtab1\documents\visual studio 2012\Projects\MetroFlickrViewer\MetroFlickrViewer\bin\Debug\resources.pri
+c:\users\devtab1\documents\visual studio 2012\Projects\MetroFlickrViewer\MetroFlickrViewer\bin\Debug\AppxManifest.xml
+c:\users\devtab1\documents\visual studio 2012\Projects\MetroFlickrViewer\MetroFlickrViewer\bin\Debug\MetroFlickrViewer.build.appxrecipe
+c:\users\devtab1\documents\visual studio 2012\Projects\MetroFlickrViewer\MetroFlickrViewer\bld\Debug\priconfig.xml.intermediate
+c:\users\devtab1\documents\visual studio 2012\Projects\MetroFlickrViewer\MetroFlickrViewer\bld\Debug\layout.resfiles.intermediate
+c:\users\devtab1\documents\visual studio 2012\Projects\MetroFlickrViewer\MetroFlickrViewer\bld\Debug\resources.resfiles.intermediate
+c:\users\devtab1\documents\visual studio 2012\Projects\MetroFlickrViewer\MetroFlickrViewer\bld\Debug\pri.resfiles.intermediate
+c:\users\devtab1\documents\visual studio 2012\Projects\MetroFlickrViewer\MetroFlickrViewer\bld\Debug\priconfig.xml
+c:\users\devtab1\documents\visual studio 2012\Projects\MetroFlickrViewer\MetroFlickrViewer\bld\Debug\layout.resfiles
+c:\users\devtab1\documents\visual studio 2012\Projects\MetroFlickrViewer\MetroFlickrViewer\bld\Debug\resources.resfiles
+c:\users\devtab1\documents\visual studio 2012\Projects\MetroFlickrViewer\MetroFlickrViewer\bld\Debug\pri.resfiles
+c:\users\devtab1\documents\visual studio 2012\Projects\MetroFlickrViewer\MetroFlickrViewer\bld\Debug\LanguageQualifiers.txt
+c:\users\devtab1\documents\visual studio 2012\Projects\MetroFlickrViewer\MetroFlickrViewer\bld\Debug\ProjectArchitectures.txt

@@ -1,0 +1,46 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2012
+Project("{262852C6-CD72-467D-83FE-5EEB1973A190}") = "MetroFlickrViewer", "MetroFlickrViewer\MetroFlickrViewer.jsproj", "{EE032140-001F-4CF7-9301-E8CCB67F6FFA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|ARM = Debug|ARM
+		Debug|Any CPU = Debug|Any CPU
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|ARM = Release|ARM
+		Release|Any CPU = Release|Any CPU
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EE032140-001F-4CF7-9301-E8CCB67F6FFA}.Debug|ARM.ActiveCfg = Debug|ARM
+		{EE032140-001F-4CF7-9301-E8CCB67F6FFA}.Debug|ARM.Build.0 = Debug|ARM
+		{EE032140-001F-4CF7-9301-E8CCB67F6FFA}.Debug|ARM.Deploy.0 = Debug|ARM
+		{EE032140-001F-4CF7-9301-E8CCB67F6FFA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE032140-001F-4CF7-9301-E8CCB67F6FFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE032140-001F-4CF7-9301-E8CCB67F6FFA}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{EE032140-001F-4CF7-9301-E8CCB67F6FFA}.Debug|x64.ActiveCfg = Debug|x64
+		{EE032140-001F-4CF7-9301-E8CCB67F6FFA}.Debug|x64.Build.0 = Debug|x64
+		{EE032140-001F-4CF7-9301-E8CCB67F6FFA}.Debug|x64.Deploy.0 = Debug|x64
+		{EE032140-001F-4CF7-9301-E8CCB67F6FFA}.Debug|x86.ActiveCfg = Debug|x86
+		{EE032140-001F-4CF7-9301-E8CCB67F6FFA}.Debug|x86.Build.0 = Debug|x86
+		{EE032140-001F-4CF7-9301-E8CCB67F6FFA}.Debug|x86.Deploy.0 = Debug|x86
+		{EE032140-001F-4CF7-9301-E8CCB67F6FFA}.Release|ARM.ActiveCfg = Release|ARM
+		{EE032140-001F-4CF7-9301-E8CCB67F6FFA}.Release|ARM.Build.0 = Release|ARM
+		{EE032140-001F-4CF7-9301-E8CCB67F6FFA}.Release|ARM.Deploy.0 = Release|ARM
+		{EE032140-001F-4CF7-9301-E8CCB67F6FFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE032140-001F-4CF7-9301-E8CCB67F6FFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE032140-001F-4CF7-9301-E8CCB67F6FFA}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{EE032140-001F-4CF7-9301-E8CCB67F6FFA}.Release|x64.ActiveCfg = Release|x64
+		{EE032140-001F-4CF7-9301-E8CCB67F6FFA}.Release|x64.Build.0 = Release|x64
+		{EE032140-001F-4CF7-9301-E8CCB67F6FFA}.Release|x64.Deploy.0 = Release|x64
+		{EE032140-001F-4CF7-9301-E8CCB67F6FFA}.Release|x86.ActiveCfg = Release|x86
+		{EE032140-001F-4CF7-9301-E8CCB67F6FFA}.Release|x86.Build.0 = Release|x86
+		{EE032140-001F-4CF7-9301-E8CCB67F6FFA}.Release|x86.Deploy.0 = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
