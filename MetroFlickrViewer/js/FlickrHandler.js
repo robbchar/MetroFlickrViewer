@@ -8,6 +8,7 @@ MetroFlickrViewer.FlickrHandler = {
     CurrentUserId: '',
     CurrentStatus: 'none',
     PhotoHash: {},
+    PhotoReadyCallback: undefined, // args FlickrPhoto
 
     setCurrentUserName: function (userName) {
         this.CurrentUserName = userName;
@@ -53,8 +54,11 @@ MetroFlickrViewer.FlickrHandler = {
                                         var response = JSON.parse(result.responseText);
 
                                         if (response.stat == 'ok') {
-                                            MetroFlickrViewer.FlickrHandler.PhotoHash[response.photo.id].setFlickrPhoto(response.photo);
+                                            MetroFlickrViewer.FlickrHandler.PhotoHash[response.photo.id].setFlickrInfo(response.photo);
 
+                                            if (MetroFlickrViewer.FlickrHandler.PhotoReadyCallback) {
+                                                MetroFlickrViewer.FlickrHandler.PhotoReadyCallback(MetroFlickrViewer.FlickrHandler.PhotoHash[response.photo.id]);
+                                            }
                                         }
                                     });
                             }
