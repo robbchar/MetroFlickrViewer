@@ -6,7 +6,7 @@
 *.pydevproject
 .project
 .metadata
-bld/**
+MetroFlickrViewer/bld/**
 bin/**
 tmp/**
 tmp/**/*
