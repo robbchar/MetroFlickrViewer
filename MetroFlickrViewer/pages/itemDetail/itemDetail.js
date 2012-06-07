@@ -12,7 +12,7 @@
             element.querySelector(".titlearea .pagetitle").textContent = item.group.title;
             element.querySelector("article .item-title").textContent = item.title;
             element.querySelector("article .item-subtitle").textContent = item.subtitle;
-            element.querySelector("article .item-image").src = item.backgroundImage;
+            element.querySelector("article .item-image").src = item.backgroundImageLarge;
             element.querySelector("article .item-image").alt = item.subtitle;
             element.querySelector("article .item-content").innerHTML = item.content;
             element.querySelector(".content").focus();

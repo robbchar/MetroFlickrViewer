@@ -24,6 +24,7 @@ MetroFlickrViewer.FlickrPhoto = function (initPhoto) {
         this.setTitle();
         this.setSubTitle();
         this.setBackgroundImage();
+        this.setBackgroundImageLarge();
         this.setContent();
         this.setDescription();
     }
@@ -54,7 +55,7 @@ MetroFlickrViewer.FlickrPhoto = function (initPhoto) {
 
     this.subtitle = undefined;
     this.setSubTitle = function () {
-        this.subtitle = 'subTitle';
+        this.subtitle = flickrInfo.title._content;
     }
 
     this.description = undefined;
@@ -64,7 +65,7 @@ MetroFlickrViewer.FlickrPhoto = function (initPhoto) {
 
     this.content = undefined;
     this.setContent = function () {
-        this.content = 'content';
+        this.content = flickrInfo.description._content;
     }
 
     this.backgroundImage = undefined;
@@ -75,6 +76,15 @@ MetroFlickrViewer.FlickrPhoto = function (initPhoto) {
         this.backgroundImage = 'http://farm' + flickrPhoto.farm + '.staticflickr.com/' + flickrPhoto.server + '/' + flickrPhoto.id + '_' + flickrPhoto.secret + '_' + size + '.jpg';
     }
 
+    this.backgroundImageLarge = undefined;
+    this.setBackgroundImageLarge = function () {
+        var size = 'b';
+        // http://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}.jpg
+
+        this.backgroundImageLarge = 'http://farm' + flickrPhoto.farm + '.staticflickr.com/' + flickrPhoto.server + '/' + flickrPhoto.id + '_' + flickrPhoto.secret + '_' + size + '.jpg';
+    }
+
+    // utility functions
     this.getPhotoTakenDate = function () {
         var dateParts = flickrInfo.dates.taken.split(' ');
         var yearMonthDay = dateParts[0].split('-');

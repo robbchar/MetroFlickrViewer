@@ -1,6 +1,8 @@
 ﻿(function () {
     "use strict";
 
+    var Notifications = Windows.UI.Notifications;
+    //var ToastContent = NotificationsExtensions.ToastContent;
     var appView = Windows.UI.ViewManagement.ApplicationView;
     var appViewState = Windows.UI.ViewManagement.ApplicationViewState;
     var nav = WinJS.Navigation;
@@ -12,7 +14,7 @@
         // This function updates the ListView with new layouts
         initializeLayout: function (listView, viewState) {
             /// <param name="listView" value="WinJS.UI.ListView.prototype" />
-            
+
             if (viewState === appViewState.snapped) {
                 listView.itemDataSource = Data.groups.dataSource;
                 listView.groupDataSource = null;
@@ -40,6 +42,7 @@
         // populates the page elements with the app's data.
         ready: function (element, options) {
             MetroFlickrViewer.FlickrHandler.getUserId();
+            MetroFlickrViewer.FlickrHandler.PhotoReadyCallback = this.photoReady;
 
             var listView = element.querySelector(".groupeditemslist").winControl;
             listView.groupHeaderTemplate = element.querySelector(".headerTemplate");
@@ -48,6 +51,13 @@
 
             this.initializeLayout(listView, appView.value);
             listView.element.focus();
+
+            WinJS.Application.onsettings = function (e) {
+                e.detail.applicationcommands = {
+                    "setUser": { title: "Set User", href: "/pages/SetUserFlyout.html" }
+                };
+                WinJS.UI.SettingsFlyout.populateSettings(e);
+            };
         },
 
         // This function updates the page layout in response to viewState changes.
@@ -67,6 +77,10 @@
                     this.initializeLayout(listView, viewState);
                 }
             }
+        },
+
+        photoReady: function (flickrPhoto) {
+            Data.addItem(flickrPhoto);
         }
     });
 })();

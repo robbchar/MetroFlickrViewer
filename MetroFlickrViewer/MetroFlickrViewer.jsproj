@@ -70,6 +70,7 @@
     <Content Include="pages\groupedItems\groupedItems.html" />
     <Content Include="pages\groupedItems\groupedItems.js" />
     <Content Include="default.html" />
+    <Content Include="pages\SetUserFlyout.html" />
     <None Include="MetroFlickrViewer_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
