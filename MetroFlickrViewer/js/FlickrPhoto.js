@@ -38,9 +38,20 @@ MetroFlickrViewer.FlickrPhoto = function (initPhoto) {
         //backgroundImage: darkGray, 
         //description: groupDescription
 
+        var photoTakenDate = this.getPhotoTakenDate();
         var groupObject = {};
-        groupObject.key = '' + this.getPhotoTakenDate().getDate() + this.getPhotoTakenDate().getMonth() + this.getPhotoTakenDate().getFullYear();
-        groupObject.title = this.getFormattedPhotoDate();
+        var day = photoTakenDate.getDate();
+        if (day < 10) {
+            day = '0' + day;
+        }
+
+        var month = photoTakenDate.getMonth();
+        if (month < 10) {
+            month = '0' + month;
+        }
+
+        groupObject.key = '' + month + photoTakenDate.getFullYear();
+        groupObject.title = this.getMonthTaken() + ' ' + photoTakenDate.getFullYear();
         groupObject.subtitle = '';
         groupObject.backgroundImage = '';
         groupObject.description = '';
@@ -60,7 +71,7 @@ MetroFlickrViewer.FlickrPhoto = function (initPhoto) {
 
     this.description = undefined;
     this.setDescription = function () {
-        this.description = flickrInfo.description;
+        this.description = flickrInfo.description._content;
     }
 
     this.content = undefined;
@@ -102,9 +113,6 @@ MetroFlickrViewer.FlickrPhoto = function (initPhoto) {
     this.getFormattedPhotoDate = function () {
         var date = this.getPhotoTakenDate();
 
-        var m_names = new Array("January", "February", "March",
-            "April", "May", "June", "July", "August", "September",
-            "October", "November", "December");
         var day = date.getDate();
         var sup = '';
         if (day == 1 || day == 21 || day == 31) {
@@ -120,6 +128,16 @@ MetroFlickrViewer.FlickrPhoto = function (initPhoto) {
             sup = "th";
         }
 
-        return m_names[date.getMonth()] + ' ' + day + sup + ", " + date.getFullYear();
+        return this.getMonthTaken() + ' ' + day + sup + ", " + date.getFullYear();
+    },
+
+    this.getMonthTaken = function () {
+        var date = this.getPhotoTakenDate();
+
+        var m_names = new Array("January", "February", "March",
+            "April", "May", "June", "July", "August", "September",
+            "October", "November", "December");
+
+        return m_names[date.getMonth()]
     }
 }

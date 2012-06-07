@@ -15,7 +15,7 @@
   </Resources>
   <Applications>
     <Application Id="App" StartPage="default.html">
-      <VisualElements DisplayName="MetroFlickrViewer" Logo="images\logo.png" SmallLogo="images\smalllogo.png" Description="MetroFlickrViewer" ForegroundText="light" BackgroundColor="#464646" ToastCapable="true">
+      <VisualElements DisplayName="MetroFlickrViewer" Logo="images\logo.png" SmallLogo="images\smalllogo.png" Description="MetroFlickrViewer" ForegroundText="light" BackgroundColor="#464646" ToastCapable="false">
         <DefaultTile ShowName="allLogos" />
         <SplashScreen Image="images\splashscreen.png" />
       </VisualElements>

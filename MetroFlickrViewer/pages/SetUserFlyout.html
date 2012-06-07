@@ -1,25 +1,23 @@
 ﻿<!doctype HTML>
 <html>
     <head>
-        <title>Set User flyout</title>
+        <title>Help settings flyout</title>
     </head>
     <body>
-        <!-- BEGINTEMPLATE: Template code for an empty Help Flyout. -->
-        <!-- Each settings flyout should be defined in its own HTML file. -->
-        <!-- Set the width to 'narrow' for a narrow settings flyout. -->
-        <!-- Set the background color for the header to the background color defined for your
-             app tile in the manifest. -->
-        <div id="helpDiv" data-win-control="WinJS.UI.SettingsFlyout" aria-label="Help settings flyout"
-                data-win-options="{width:'wide'}">
-            <div class="win-header" style="background-color:#dbf9ff">
-                <button type="button" onclick="WinJS.UI.SettingsFlyout.show()" class="win-backbutton"></button>
-                <div class="win-label">Set User</div>
-                <img src="images/smallTile.png" style="position: absolute; right: 40px;"/>
-            </div>
-            <div class="win-content">
-                {Help content here}
+        <!-- BEGINSETTINGFLYOUT -->
+        <div data-win-control="WinJS.UI.SettingsFlyout" aria-label="Help settings flyout" data-win-options="{settingsCommandId:'setUser',width:'wide'}">
+            <!-- Use either 'win-ui-light' or 'win-ui-dark' depending on the contrast between the header title and background color -->
+            <div class="win-ui-dark win-header" style="background-color:#00b2f0"> <!-- Background color reflects app's personality -->
+               <button type="button" onclick="WinJS.UI.SettingsFlyout.show()" class="win-backbutton"></button>
+               <div class="win-label">Set the flickr username</div>
+            </div>                
+            <div class="win-content ">
+                <div class="win-settings-section">
+                    <input class="usernameInput" type="text" aria-label="current user name" />
+                    <button type="button" onclick="GroupedItems.initUI(document.querySelector('.usernameInput').value);">Set</button>
+                </div>
             </div>
         </div>
-        <!-- ENDTEMPLATE -->
+        <!-- ENDSETTINGSFLYOUT -->
     </body>
 </html>

@@ -1,8 +1,6 @@
 ﻿(function () {
     "use strict";
 
-    var Notifications = Windows.UI.Notifications;
-    //var ToastContent = NotificationsExtensions.ToastContent;
     var appView = Windows.UI.ViewManagement.ApplicationView;
     var appViewState = Windows.UI.ViewManagement.ApplicationViewState;
     var nav = WinJS.Navigation;
@@ -41,16 +39,13 @@
         // This function is called whenever a user navigates to this page. It
         // populates the page elements with the app's data.
         ready: function (element, options) {
-            MetroFlickrViewer.FlickrHandler.getUserId();
-            MetroFlickrViewer.FlickrHandler.PhotoReadyCallback = this.photoReady;
-
-            var listView = element.querySelector(".groupeditemslist").winControl;
-            listView.groupHeaderTemplate = element.querySelector(".headerTemplate");
-            listView.itemTemplate = element.querySelector(".itemtemplate");
-            listView.oniteminvoked = this.itemInvoked.bind(this);
-
-            this.initializeLayout(listView, appView.value);
-            listView.element.focus();
+            WinJS.Namespace.define("GroupedItems", {
+                initUI: this.initUI,
+                itemInvoked: this.itemInvoked,
+                initializeLayout: this.initializeLayout,
+                photoReady: this.photoReady
+            });
+            this.initUI();
 
             WinJS.Application.onsettings = function (e) {
                 e.detail.applicationcommands = {
@@ -81,6 +76,22 @@
 
         photoReady: function (flickrPhoto) {
             Data.addItem(flickrPhoto);
+        },
+
+        initUI: function (newUserName) {
+            Data.clearItems();
+
+            MetroFlickrViewer.FlickrHandler.startGettingPhotos(newUserName);
+            MetroFlickrViewer.FlickrHandler.PhotoReadyCallback = this.photoReady;
+
+            var listView = document.querySelector(".groupeditemslist").winControl;
+            listView.forceLayout();
+            listView.groupHeaderTemplate = document.querySelector(".headerTemplate");
+            listView.itemTemplate = document.querySelector(".itemtemplate");
+            listView.oniteminvoked = GroupedItems.itemInvoked.bind(GroupedItems);
+
+            GroupedItems.initializeLayout(listView, appView.value);
+            listView.element.focus();
         }
     });
 })();
