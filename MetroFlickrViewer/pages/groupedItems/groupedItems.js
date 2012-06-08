@@ -39,20 +39,36 @@
         // This function is called whenever a user navigates to this page. It
         // populates the page elements with the app's data.
         ready: function (element, options) {
-            WinJS.Namespace.define("GroupedItems", {
-                initUI: this.initUI,
-                itemInvoked: this.itemInvoked,
-                initializeLayout: this.initializeLayout,
-                photoReady: this.photoReady
-            });
-            this.initUI();
+            if (!(typeof GroupedItems != 'undefined')) { // only fo this if GroupedItems does not exist
+                WinJS.Namespace.define("GroupedItems", {
+                    initUI: this.initUI,
+                    itemInvoked: this.itemInvoked,
+                    initializeLayout: this.initializeLayout,
+                    photoReady: this.photoReady,
+                    ShowPopUp: this.showPopUp,
+                    FlickError: this.flickError
+                });
 
-            WinJS.Application.onsettings = function (e) {
-                e.detail.applicationcommands = {
-                    "setUser": { title: "Set User", href: "/pages/SetUserFlyout.html" }
+                this.initUI();
+
+                WinJS.Application.onsettings = function (e) {
+                    e.detail.applicationcommands = {
+                        "setUser": { title: "Set User", href: "/pages/SetUserFlyout.html" }
+                    };
+                    WinJS.UI.SettingsFlyout.populateSettings(e);
                 };
-                WinJS.UI.SettingsFlyout.populateSettings(e);
-            };
+
+                // define a page for the setting page
+                ui.Pages.define("/pages/SetUserFlyout.html", {
+
+                    // This function is called whenever a user navigates to this page. It
+                    // populates the page elements with the app's data.
+                    ready: function (element, options) {
+                        element.querySelector('.usernameInput').value = MetroFlickrViewer.FlickrHandler.CurrentUserName;
+                        element.querySelector('.usernameInput').focus();
+                    }
+                });
+            }
         },
 
         // This function updates the page layout in response to viewState changes.
@@ -78,20 +94,34 @@
             Data.addItem(flickrPhoto);
         },
 
+        flickError: function (message) {
+            GroupedItems.ShowPopUp('Flickr Api Error', message);
+        },
+
         initUI: function (newUserName) {
-            Data.clearItems();
+            if (MetroFlickrViewer.FlickrHandler.CurrentUserName != newUserName) {
+                Data.clearItems();
 
-            MetroFlickrViewer.FlickrHandler.startGettingPhotos(newUserName);
-            MetroFlickrViewer.FlickrHandler.PhotoReadyCallback = this.photoReady;
+                MetroFlickrViewer.FlickrHandler.startGettingPhotos(newUserName);
+                MetroFlickrViewer.FlickrHandler.PhotoReadyCallback = this.photoReady;
+                MetroFlickrViewer.FlickrHandler.ErrorCallback = GroupedItems.FlickError;
 
-            var listView = document.querySelector(".groupeditemslist").winControl;
-            listView.forceLayout();
-            listView.groupHeaderTemplate = document.querySelector(".headerTemplate");
-            listView.itemTemplate = document.querySelector(".itemtemplate");
-            listView.oniteminvoked = GroupedItems.itemInvoked.bind(GroupedItems);
+                var listView = document.querySelector(".groupeditemslist").winControl;
+                listView.forceLayout();
+                listView.groupHeaderTemplate = document.querySelector(".headerTemplate");
+                listView.itemTemplate = document.querySelector(".itemtemplate");
+                listView.oniteminvoked = GroupedItems.itemInvoked.bind(GroupedItems);
 
-            GroupedItems.initializeLayout(listView, appView.value);
-            listView.element.focus();
+                GroupedItems.initializeLayout(listView, appView.value);
+                listView.element.focus();
+            }
+        },
+
+        showPopUp: function (title, content) {
+            // Creating message dialog box
+            var messagedialogpopup = new Windows.UI.Popups.MessageDialog(content, title);
+
+            messagedialogpopup.showAsync();
         }
     });
 })();
