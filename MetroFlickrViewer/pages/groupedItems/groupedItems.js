@@ -49,8 +49,6 @@
                     FlickError: this.flickError
                 });
 
-                this.initUI();
-
                 WinJS.Application.onsettings = function (e) {
                     e.detail.applicationcommands = {
                         "setUser": { title: "Set User", href: "/pages/SetUserFlyout.html" }
@@ -68,7 +66,13 @@
                         element.querySelector('.usernameInput').focus();
                     }
                 });
+
+                this.initUI();
             }
+
+            Data.popuplateList(MetroFlickrViewer.FlickrHandler.PhotoHash);
+            var listView = document.querySelector(".groupeditemslist").winControl;
+            listView.forceLayout();
         },
 
         // This function updates the page layout in response to viewState changes.

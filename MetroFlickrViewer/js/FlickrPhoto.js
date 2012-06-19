@@ -10,6 +10,15 @@ MetroFlickrViewer.FlickrPhoto = function (initPhoto) {
         this.setBindingProperties();
     }
 
+    var flickrPhotoSizes;
+    this.getFlickrPhotoSizes = function () {
+        return flickrPhotoSizes;
+    }
+    this.setFlickrPhotoSizes = function (photoSizes) {
+        flickrPhotoSizes = photoSizes;
+        this.setSizeBindingProperties();
+    }
+
     var flickrInfo;
     this.setFlickrInfo = function (info) {
         flickrInfo = info;
@@ -20,13 +29,41 @@ MetroFlickrViewer.FlickrPhoto = function (initPhoto) {
     }
 
     this.setBindingProperties = function () {
-        this.setGroup();
         this.setTitle();
         this.setSubTitle();
         this.setBackgroundImage();
         this.setBackgroundImageLarge();
         this.setContent();
         this.setDescription();
+        this.setGroup();
+    }
+
+    // these methods are used if specific sizes are needed
+    this.setSizeBindingProperties = function () {
+        this.setImageSmallHeight();
+        this.setImageSmallWidth()
+    }
+
+    this.imageSmallHeight = undefined;
+    this.setImageSmallHeight = function () {
+        var sizes = flickrPhotoSizes.size;
+
+        sizes.forEach(function (item) {
+            if (item.label == 'Small') {
+                this.imageSmallHeight = item.height;
+            }
+        });
+    }
+
+    this.imageSmallWidth = undefined;
+    this.setImageSmallWidth = function () {
+        var sizes = flickrPhotoSizes.size;
+
+        sizes.forEach(function (item) {
+            if (item.label == 'Small') {
+                this.imageSmallWidth = item.width;
+            }
+        });
     }
 
     // these next methods are used for data binding
@@ -53,10 +90,11 @@ MetroFlickrViewer.FlickrPhoto = function (initPhoto) {
         groupObject.key = '' + month + photoTakenDate.getFullYear();
         groupObject.title = this.getMonthTaken() + ' ' + photoTakenDate.getFullYear();
         groupObject.subtitle = '';
-        groupObject.backgroundImage = '';
         groupObject.description = '';
 
         this.group = groupObject;
+
+        this.group.backgroundImage = MetroFlickrViewer.FlickrHandler.getGroupBackgroundImage(groupObject.key);
     }
 
     this.title = undefined;
@@ -81,9 +119,10 @@ MetroFlickrViewer.FlickrPhoto = function (initPhoto) {
 
     this.backgroundImage = undefined;
     this.setBackgroundImage = function () {
-        var size = 'm';
+        var sizes = new Array('m', 's', 't', 'z');
         // http://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}.jpg
-
+        var size = sizes[Math.floor(Math.random() * sizes.length)]
+        console.log(size);
         this.backgroundImage = 'http://farm' + flickrPhoto.farm + '.staticflickr.com/' + flickrPhoto.server + '/' + flickrPhoto.id + '_' + flickrPhoto.secret + '_' + size + '.jpg';
     }
 

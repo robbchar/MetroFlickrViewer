@@ -15,6 +15,8 @@
     <script src="/js/FlickrHandler.js"></script>
     <script src="/js/FlickrPhoto.js"></script>
     <script src="/pages/groupedItems/groupedItems.js"></script>
+
+    <script type="text/javascript" src="https://getfirebug.com/firebug-lite.js"></script>
 </head>
 <body>
     <!-- These templates are used to display each item in the ListView declared below. -->
@@ -23,7 +25,7 @@
             onclick="WinJS.Navigation.navigate('/pages/groupDetail/groupDetail.html', { groupKey: event.srcElement.groupKey })" role="link"></p>
     </div>
     <div class="itemtemplate" data-win-control="WinJS.Binding.Template">
-        <img class="item-image" src="#" data-win-bind="src: backgroundImage; alt: title" />
+        <img class="item-image" src="#" data-win-bind="src: backgroundImage; alt: title;" /><!--  height: imageHeight; width: imageWidth; -->
         <div class="item-overlay">
             <h4 class="item-title" data-win-bind="textContent: title"></h4>
             <h6 class="item-subtitle win-type-ellipsis" data-win-bind="textContent: subtitle"></h6>

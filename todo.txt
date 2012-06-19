@@ -1,0 +1,6 @@
+things to possibly do
+- SemanticZoom (maybe have a page that just has dates and then you could 'zoom' into the group)
+- allow the user to see an even larger image in the detail view
+- group bg image 
+	have method to the handler to get all the images in a group and pick a random one
+	- bug, since it does this as they are loading it can only select from the ones it has loaded, maybe do this when they are all loaded?
