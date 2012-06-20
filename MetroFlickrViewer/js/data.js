@@ -1,10 +1,10 @@
 ﻿(function () {
     "use strict";
 
-    // Get a reference for an item, using the group key and item title as a
+    // Get a reference for an item, using the subTitle and item title as a
     // unique reference to the item that can be easily serialized.
     function getItemReference(item) {
-        return [item.group.key, item.title];
+        return [item.subtitle, item.title];
     }
 
     function resolveGroupReference(key) {
@@ -18,7 +18,7 @@
     function resolveItemReference(reference) {
         for (var i = 0; i < groupedItems.length; i++) {
             var item = groupedItems.getAt(i);
-            if (item.group.key === reference[0] && item.title === reference[1]) {
+            if (item.subtitle === reference[0] && item.title === reference[1]) {
                 return item;
             }
         }
