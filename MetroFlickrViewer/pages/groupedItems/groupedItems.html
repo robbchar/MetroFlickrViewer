@@ -11,12 +11,11 @@
     
     <link href="/css/default.css" rel="stylesheet" />
     <link href="/pages/groupedItems/groupedItems.css" rel="stylesheet" />
+
     <script src="/js/data.js"></script>
     <script src="/js/FlickrHandler.js"></script>
     <script src="/js/FlickrPhoto.js"></script>
     <script src="/pages/groupedItems/groupedItems.js"></script>
-
-    <script type="text/javascript" src="https://getfirebug.com/firebug-lite.js"></script>
 </head>
 <body>
     <!-- These templates are used to display each item in the ListView declared below. -->
@@ -41,7 +40,10 @@
             </h1>
         </header>
         <section aria-label="Main content" role="main">
-            <div class="groupeditemslist" aria-label="List of groups" data-win-control="WinJS.UI.ListView" data-win-options="{ selectionMode: 'none' }"></div>
+            <div class="groupeditemslist" aria-label="List of groups" data-win-control="WinJS.UI.ListView" 
+                data-win-options="{ selectionMode: 'none' }"
+                <!--data-win-bind="winControl.itemDataSource: Data.items" -->
+                ></div>
         </section>
     </div>
 </body>

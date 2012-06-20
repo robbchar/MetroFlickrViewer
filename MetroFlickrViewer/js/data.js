@@ -82,8 +82,11 @@
     }
 
     function popuplateList(itemsHash) {
+        clearItems();
         for (var key in itemsHash) {
-            list.push(itemsHash[key]);
+            if (itemsHash[key] != undefined) {
+                list.push(itemsHash[key]);
+            }
         }
     }
 

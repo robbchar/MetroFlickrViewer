@@ -70,9 +70,17 @@
                 this.initUI();
             }
 
-            Data.popuplateList(MetroFlickrViewer.FlickrHandler.PhotoHash);
+            //var groupeditemslist = document.querySelector(".groupeditemslist");
+            //groupeditemslist.innerHTML = '';
             var listView = document.querySelector(".groupeditemslist").winControl;
-            listView.forceLayout();
+            listView.groupHeaderTemplate = document.querySelector(".headerTemplate");
+            listView.itemTemplate = document.querySelector(".itemtemplate");
+            listView.oniteminvoked = GroupedItems.itemInvoked.bind(GroupedItems);
+
+            GroupedItems.initializeLayout(listView, appView.value);
+
+            Data.popuplateList(MetroFlickrViewer.FlickrHandler.PhotoHash);
+            listView.element.focus();
         },
 
         // This function updates the page layout in response to viewState changes.
@@ -109,15 +117,6 @@
                 MetroFlickrViewer.FlickrHandler.startGettingPhotos(newUserName);
                 MetroFlickrViewer.FlickrHandler.PhotoReadyCallback = this.photoReady;
                 MetroFlickrViewer.FlickrHandler.ErrorCallback = GroupedItems.FlickError;
-
-                var listView = document.querySelector(".groupeditemslist").winControl;
-                listView.forceLayout();
-                listView.groupHeaderTemplate = document.querySelector(".headerTemplate");
-                listView.itemTemplate = document.querySelector(".itemtemplate");
-                listView.oniteminvoked = GroupedItems.itemInvoked.bind(GroupedItems);
-
-                GroupedItems.initializeLayout(listView, appView.value);
-                listView.element.focus();
             }
         },
 
