@@ -16,20 +16,60 @@
         margin-top: 5px;
         margin-left: 70px;
         padding: 0;
+        width:200px;
     }
 
         .groupeditemspage .groupeditemslist .win-groupheader .group-title {
             margin-bottom: 10px;
             margin-left: 5px;
             margin-top: 0;
+            width:200px;
         }
 
     .groupeditemspage .groupeditemslist .win-item {
-        -ms-grid-columns: 1fr;
+        /*-ms-grid-columns: 1fr;
         -ms-grid-rows: 1fr 90px;
         display: -ms-grid;
         height:250px;
-        width:250px;
+        width:250px;*/
+    }
+
+    .groupeditemspage .groupeditemslist .itemtemplate-t,
+    .groupeditemspage .groupeditemslist .itemtemplate-t .viewBox {
+        width:120px;
+        height:80px;
+	    line-height: 80px;
+    }
+
+    .groupeditemspage .groupeditemslist .itemtemplate-m,
+    .groupeditemspage .groupeditemslist .itemtemplate-m .viewBox {
+        width:240px;
+        height:160px;
+	    line-height: 160px;
+    }
+
+    .groupeditemspage .groupeditemslist .itemtemplate-n,
+    .groupeditemspage .groupeditemslist .itemtemplate-n .viewBox {
+        width:360px;
+        height:240px;
+	    line-height: 240px;
+    }
+
+    .groupeditemspage .groupeditemslist .viewBox {
+        background-color: rgba(0,0,0,0.80);
+        display:table-cell;
+        vertical-align:middle;
+    }
+
+    .groupeditemspage .groupeditemslist .viewBox:hover {
+        background-color: rgba(0,0,0,0.85);
+    }
+
+    .groupeditemspage .groupeditemslist .viewBox img {
+        margin-right:auto;
+        margin-left:auto;
+        display:block;
+        vertical-align:middle;
     }
 
         .groupeditemspage .groupeditemslist .win-item .item-image {
@@ -37,21 +77,26 @@
         }
 
         .groupeditemspage .groupeditemslist .win-item .item-overlay {
-            -ms-grid-row: 2;
-            -ms-grid-rows: 1fr 21px;
+            /*-ms-grid-row: 2;
+            -ms-grid-rows: 1fr 21px;*/
             display: -ms-grid;
-            padding: 6px 15px 2px 15px;
+            padding: 6px 5px 2px 5px;
+            opacity:0;
+            position:absolute;
+            top:5px;
+        }
+
+        .groupeditemspage .groupeditemslist .win-item:hover .item-overlay {
+            opacity:1;
         }
 
             .groupeditemspage .groupeditemslist .win-item .item-overlay .item-title {
                 -ms-grid-row: 1;
                 overflow: hidden;
-                width: 220px;
             }
 
             .groupeditemspage .groupeditemslist .win-item .item-overlay .item-subtitle {
                 -ms-grid-row: 2;
-                width: 220px;
             }
 
 @media screen and (-ms-view-state: fullscreen-landscape), screen and (-ms-view-state: fullscreen-portrait), screen and (-ms-view-state: filled) {

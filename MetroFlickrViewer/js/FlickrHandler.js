@@ -102,35 +102,35 @@ MetroFlickrViewer.FlickrHandler = {
                                                 MetroFlickrViewer.FlickrHandler.PhotoHash[response.photo.id].setFlickrInfo(response.photo);
                                                 MetroFlickrViewer.FlickrHandler.PhotoHash[response.photo.id].setBindingProperties();
 
-                                                //MetroFlickrViewer.FlickrHandler.CurrentRequests.push(WinJS.xhr({ url: MetroFlickrViewer.FlickrHandler.getPhotoSizesUrl(item.id) })
-                                                //    .then(function complete(result) {
-                                                    //    var response = JSON.parse(result.responseText);
+                                                MetroFlickrViewer.FlickrHandler.CurrentRequests.push(WinJS.xhr({ url: MetroFlickrViewer.FlickrHandler.getPhotoSizesUrl(item.id) })
+                                                    .then(function complete(result) {
+                                                        var response = JSON.parse(result.responseText);
 
-                                                    //    if (response.stat == 'ok') {
-                                                    //        var urlParts = response.sizes.size[0].source.split('_');
-                                                    //        urlParts = urlParts[0].split('/');
-                                                    //        var photoId = urlParts[urlParts.length - 1];
+                                                        if (response.stat == 'ok') {
+                                                            var urlParts = response.sizes.size[0].source.split('_');
+                                                            urlParts = urlParts[0].split('/');
+                                                            var photoId = urlParts[urlParts.length - 1];
 
-                                                    //        MetroFlickrViewer.FlickrHandler.PhotoHash[photoId].setFlickrPhotoSizes(response.sizes);
-                                                    //        MetroFlickrViewer.FlickrHandler.PhotoHash[photoId].setSizeBindingProperties();
+                                                            MetroFlickrViewer.FlickrHandler.PhotoHash[photoId].setFlickrPhotoSizes(response.sizes);
+                                                            MetroFlickrViewer.FlickrHandler.PhotoHash[photoId].setSizeBindingProperties();
 
-                                                    //        if (MetroFlickrViewer.FlickrHandler.PhotoReadyCallback) {
-                                                    //            MetroFlickrViewer.FlickrHandler.PhotoReadyCallback(MetroFlickrViewer.FlickrHandler.PhotoHash[photoId]);
-                                                    //        }
-                                                    //    } else {
-                                                    //        if (MetroFlickrViewer.FlickrHandler.ErrorCallback) {
-                                                    //            MetroFlickrViewer.FlickrHandler.ErrorCallback(response.message);
-                                                    //        }
-                                                    //    }
-                                                    //}));
+                                                            if (MetroFlickrViewer.FlickrHandler.PhotoReadyCallback) {
+                                                                MetroFlickrViewer.FlickrHandler.PhotoReadyCallback(MetroFlickrViewer.FlickrHandler.PhotoHash[photoId]);
+                                                            }
+                                                        } else {
+                                                            if (MetroFlickrViewer.FlickrHandler.ErrorCallback) {
+                                                                MetroFlickrViewer.FlickrHandler.ErrorCallback(response.message);
+                                                            }
+                                                        }
+                                                    }));
 
                                                 if (MetroFlickrViewer.FlickrHandler.PhotoHash[response.photo.id]) {
                                                     MetroFlickrViewer.FlickrHandler.PhotoHash[response.photo.id].setFlickrInfo(response.photo);
                                                 }
 
-                                                if (MetroFlickrViewer.FlickrHandler.PhotoReadyCallback) {
-                                                    MetroFlickrViewer.FlickrHandler.PhotoReadyCallback(MetroFlickrViewer.FlickrHandler.PhotoHash[response.photo.id]);
-                                                }
+                                                //if (MetroFlickrViewer.FlickrHandler.PhotoReadyCallback) {
+                                                //    MetroFlickrViewer.FlickrHandler.PhotoReadyCallback(MetroFlickrViewer.FlickrHandler.PhotoHash[response.photo.id]);
+                                                //}
                                             } else {
                                                 if (MetroFlickrViewer.FlickrHandler.ErrorCallback) {
                                                     MetroFlickrViewer.FlickrHandler.ErrorCallback(response.message);

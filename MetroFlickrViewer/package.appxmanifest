@@ -2,7 +2,7 @@
 <Package xmlns="http://schemas.microsoft.com/appx/2010/manifest">
   <Identity Name="ee032140-001f-4cf7-9301-e8ccb67f6ffa" Version="1.0.0.0" Publisher="CN=devtab1" />
   <Properties>
-    <DisplayName>MetroFlickrViewer</DisplayName>
+    <DisplayName>Flickr Viewr</DisplayName>
     <PublisherDisplayName>devtab1</PublisherDisplayName>
     <Logo>images\storelogo.png</Logo>
   </Properties>
@@ -15,7 +15,7 @@
   </Resources>
   <Applications>
     <Application Id="App" StartPage="default.html">
-      <VisualElements DisplayName="MetroFlickrViewer" Logo="images\logo.png" SmallLogo="images\smalllogo.png" Description="MetroFlickrViewer" ForegroundText="light" BackgroundColor="#464646" ToastCapable="false">
+      <VisualElements DisplayName="Flickr Viewr" Logo="images\logo.png" SmallLogo="images\smalllogo.png" Description="Flickr Viewr" ForegroundText="light" BackgroundColor="#464646" ToastCapable="false">
         <DefaultTile ShowName="allLogos" />
         <SplashScreen Image="images\splashscreen.png" />
       </VisualElements>

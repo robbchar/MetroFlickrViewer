@@ -117,13 +117,18 @@ MetroFlickrViewer.FlickrPhoto = function (initPhoto) {
         this.content = flickrInfo.description._content;
     }
 
+    this.currentSize = undefined;
     this.backgroundImage = undefined;
     this.setBackgroundImage = function () {
-        var sizes = new Array('m', 's', 't', 'z');
+        //t	thumbnail, 100 on longest side
+        //m	small, 240 on longest side
+        //n	small, 320 on longest side
+        //-	medium, 500 on longest side
+        //z	medium 640, 640 on longest side
+        var sizes = new Array('t', 'm', 'n');// var sizes = new Array('t', 'm', 'n', '-', 'z');
         // http://farm{farm-id}.staticflickr.com/{server-id}/{id}_{secret}.jpg
-        var size = sizes[Math.floor(Math.random() * sizes.length)]
-        console.log(size);
-        this.backgroundImage = 'http://farm' + flickrPhoto.farm + '.staticflickr.com/' + flickrPhoto.server + '/' + flickrPhoto.id + '_' + flickrPhoto.secret + '_' + size + '.jpg';
+        this.currentSize = sizes[Math.floor(Math.random() * sizes.length)]
+        this.backgroundImage = 'http://farm' + flickrPhoto.farm + '.staticflickr.com/' + flickrPhoto.server + '/' + flickrPhoto.id + '_' + flickrPhoto.secret + '_' + this.currentSize + '.jpg';
     }
 
     this.backgroundImageLarge = undefined;
@@ -167,7 +172,8 @@ MetroFlickrViewer.FlickrPhoto = function (initPhoto) {
             sup = "th";
         }
 
-        return this.getMonthTaken() + ' ' + day + sup + ", " + date.getFullYear();
+        // return this.getMonthTaken() + ' ' + day + sup + ", " + date.getFullYear();
+        return 'taken the ' + day + sup;
     },
 
     this.getMonthTaken = function () {

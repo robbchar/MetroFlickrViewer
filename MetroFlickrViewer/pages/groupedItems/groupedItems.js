@@ -7,6 +7,62 @@
     var ui = WinJS.UI;
     var utils = WinJS.Utilities;
 
+    // by specifying the smallest common denomenator of all the possible sizes, the engine takes care 
+    // of the positioning
+    function groupInfo() {
+        return {
+            enableCellSpanning: true,
+            cellWidth: 120,
+            cellHeight: 80
+        };
+    }
+
+    function multisizeItemTemplateRenderer(itemPromise) {
+        return itemPromise.then(function (currentItem) {
+            var content;
+            // Grab the default item template used on the groupeditems page.
+            content = document.getElementsByClassName("itemtemplate-n")[0];
+            var result = content.cloneNode(true);
+
+            // Change the CSS class of the item depending on the size od the image used, then set the size in CSS.
+            switch (currentItem.data.currentSize) {
+                case "t":
+                    {
+                        result.className = "itemtemplate-t";
+                        break;
+                    }
+                case "m":
+                    {
+                        result.className = "itemtemplate-m";
+                        break;
+                    }
+                case "n":
+                    {
+                        result.className = "itemtemplate-n";
+                        break;
+                    }
+                default:
+                    {
+                        result.className = "itemtemplate-n";
+                        break;
+                    }
+            }
+
+            // Because we used a WinJS template, we need to strip off some attributes 
+            // for it to render.
+            result.attributes.removeNamedItem("data-win-control");
+            result.attributes.removeNamedItem("style");
+            result.style.overflow = "hidden";
+
+            // Because we're doing the rendering, we need to put the data into the item.
+            // We can't use databinding.
+            result.getElementsByClassName("item-image")[0].src = currentItem.data.backgroundImage;
+            result.getElementsByClassName("item-title")[0].textContent = currentItem.data.title;
+            result.getElementsByClassName("item-subtitle")[0].textContent = currentItem.data.subtitle;
+            return result;
+        });
+    }
+
     ui.Pages.define("/pages/groupedItems/groupedItems.html", {
 
         // This function updates the ListView with new layouts
@@ -20,7 +76,10 @@
             } else {
                 listView.itemDataSource = Data.items.dataSource;
                 listView.groupDataSource = Data.groups.dataSource;
-                listView.layout = new ui.GridLayout({ groupHeaderPosition: "top" });
+
+                // Add the following two lines of code.
+                listView.itemTemplate = multisizeItemTemplateRenderer;
+                listView.layout = new ui.GridLayout({ groupInfo: groupInfo, groupHeaderPosition: "top" });
             }
         },
 
