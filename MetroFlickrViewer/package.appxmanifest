@@ -16,12 +16,23 @@
   <Applications>
     <Application Id="App" StartPage="default.html">
       <VisualElements DisplayName="Flickr Viewr" Logo="images\logo.png" SmallLogo="images\smalllogo.png" Description="Flickr Viewr" ForegroundText="light" BackgroundColor="#464646" ToastCapable="false">
-        <DefaultTile ShowName="allLogos" />
+        <DefaultTile ShowName="allLogos" WideLogo="images\wideLogo.png" />
         <SplashScreen Image="images\splashscreen.png" />
       </VisualElements>
+      <Extensions>
+        <Extension Category="windows.fileTypeAssociation">
+          <FileTypeAssociation Name="text">
+            <DisplayName>Text type</DisplayName>
+            <SupportedFileTypes>
+              <FileType>.txt</FileType>
+            </SupportedFileTypes>
+          </FileTypeAssociation>
+        </Extension>
+      </Extensions>
     </Application>
   </Applications>
   <Capabilities>
+    <Capability Name="documentsLibrary" />
     <Capability Name="internetClient" />
   </Capabilities>
 </Package>

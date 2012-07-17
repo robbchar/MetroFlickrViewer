@@ -1,0 +1,17 @@
+﻿<tile>
+  <visual>
+    <binding template="TileWideText01" branding="logo">
+      <text id="1">pear ▲ +pear</text>
+      <text id="2">Last Trade pear</text>
+      <text id="3">Last Trade Time pear</text>
+      <text id="4">Open pear</text>
+      <text id="5"></text>
+    </binding>
+    <binding template="TileSquareText01" branding="none">
+      <text id="1">pear</text>
+      <text id="2">▲ +pear</text>
+      <text id="3">pear</text>
+      <text id="4">pear</text>
+    </binding>
+  </visual>
+</tile>

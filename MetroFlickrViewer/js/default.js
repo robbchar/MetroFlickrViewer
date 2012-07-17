@@ -42,5 +42,18 @@
         app.sessionState.history = nav.history;
     };
 
+    app.onerror = function errorHandler(e) {
+        var errorString = e.type;
+
+        if (e.detail.errorMessage) {
+            errorString = e.detail.errorMessage;
+        } else if (e.detail.exception && e.detail.exception.message) {
+            errorString = e.detail.exception.message;
+        }
+
+        console.error("JAVASCRIPT general error: " + errorString);
+        return true; // We do not want the app to terminate.
+    };
+
     app.start();
 })();

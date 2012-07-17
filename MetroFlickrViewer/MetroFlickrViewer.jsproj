@@ -51,14 +51,17 @@
       <SubType>Designer</SubType>
     </AppxManifest>
     <Content Include="css\default.css" />
+    <Content Include="images\badgelogo.png" />
     <Content Include="images\logo.png" />
     <Content Include="images\smalllogo.png" />
     <Content Include="images\splashscreen.png" />
     <Content Include="images\storelogo.png" />
+    <Content Include="images\wideLogo.png" />
     <Content Include="js\data.js" />
     <Content Include="js\default.js" />
     <Content Include="js\FlickrHandler.js" />
     <Content Include="js\FlickrPhoto.js" />
+    <Content Include="js\FlickrUser.js" />
     <Content Include="js\navigator.js" />
     <Content Include="pages\itemDetail\itemDetail.css" />
     <Content Include="pages\itemDetail\itemDetail.html" />
@@ -71,10 +74,14 @@
     <Content Include="pages\groupedItems\groupedItems.js" />
     <Content Include="default.html" />
     <Content Include="pages\SetUserFlyout.html" />
+    <Content Include="xmlfile.xml" />
     <None Include="MetroFlickrViewer_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
     <SDKReference Include="Microsoft.WinJS.1.0.RC, Version=1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NotificationsExtensions\NotificationsExtensions.csproj" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\$(WMSJSProjectDirectory)\Microsoft.VisualStudio.$(WMSJSProject).targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

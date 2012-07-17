@@ -16,8 +16,8 @@
             <div class="win-settings-section">
                 <input class="usernameInput" type="text" aria-label="current user name"
                     onkeypress="searchKeyPress(event);"
-                    onblur="if (this.value == '') {this.value = MetroFlickrViewer.FlickrHandler.CurrentUserName;}"
-                    onfocus="if (this.value == MetroFlickrViewer.FlickrHandler.CurrentUserName) {this.value = '';}" />
+                    onblur="if (this.value == '') { this.value = MetroFlickrViewer.FlickrUser.userName; }"
+                    onfocus="if (this.value == MetroFlickrViewer.FlickrUser.userName) { this.value = ''; }" />
                 <button type="button" class="submitButton"
                     onclick="GroupedItems.initUI(document.querySelector('.usernameInput').value);">
                     Set</button>

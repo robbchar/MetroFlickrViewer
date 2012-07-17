@@ -4,8 +4,7 @@ MetroFlickrViewer.FlickrHandler = {
     api_key: 'e672ac2d357f585caf7becc855930c6e',
     api_secret: 'e7280dd2de699681',
     flickr_service_url: 'http://api.flickr.com/services/rest/?format=json&nojsoncallback=1&api_key=',
-    CurrentUserName: 'robbchar',
-    CurrentUserId: undefined,
+
     CurrentStatus: 'none',
     PhotoHash: {},
     PhotoReadyCallback: undefined, // args FlickrPhoto
@@ -14,7 +13,13 @@ MetroFlickrViewer.FlickrHandler = {
     ErrorCallback: undefined, // error callback
 
     startGettingPhotos: function (userName) {
-        if (this.CurrentPage == 0 || this.setCurrentUserName(userName)) {
+        if (this.isConnected() == false)
+            return;
+
+        //if (this.dataFileExists()) {
+        //    this.loadData();
+        //} else {
+        if (this.setCurrentUserName(userName) || this.CurrentPage == 0) {
             // start at the first page
             this.CurrentPage = 1;
 
@@ -35,11 +40,14 @@ MetroFlickrViewer.FlickrHandler = {
             // when the user name is gotten get the associated id
             this.getUserId();
         }
+        //}
+
+        return true;
     },
 
     setCurrentUserName: function (userName) {
-        if (userName != this.CurrentUserName) {
-            this.CurrentUserName = userName;
+        if (userName != MetroFlickrViewer.FlickrUser.userName) {
+            MetroFlickrViewer.FlickrUser.userName = userName;
 
             // the username has changed, return true
             return true;
@@ -59,10 +67,10 @@ MetroFlickrViewer.FlickrHandler = {
                     var response = JSON.parse(result.responseText);
 
                     if (response.stat == 'ok') {
-                        MetroFlickrViewer.FlickrHandler.CurrentUserId = response.user.id;
+                        MetroFlickrViewer.FlickrUser.userId = response.user.id;
                         MetroFlickrViewer.FlickrHandler.getPhotos();
                     } else {
-                        MetroFlickrViewer.FlickrHandler.CurrentUserId = undefined;
+                        MetroFlickrViewer.FlickrUser.userId = undefined;
 
                         if (MetroFlickrViewer.FlickrHandler.ErrorCallback) {
                             MetroFlickrViewer.FlickrHandler.ErrorCallback(response.message);
@@ -73,7 +81,7 @@ MetroFlickrViewer.FlickrHandler = {
     },
 
     getPhotos: function () {
-        if (this.CurrentStatus == 'none' && this.CurrentUserId) {
+        if (this.CurrentStatus == 'none' && MetroFlickrViewer.FlickrUser.userId) {
 
             this.CurrentStatus = 'gettingPhotos';
 
@@ -99,7 +107,7 @@ MetroFlickrViewer.FlickrHandler = {
                                             var response = JSON.parse(result.responseText);
 
                                             if (response.stat == 'ok') {
-                                                MetroFlickrViewer.FlickrHandler.PhotoHash[response.photo.id].setFlickrInfo(response.photo);
+                                                MetroFlickrViewer.FlickrHandler.PhotoHash[response.photo.id].flickrPhoto = response.photo;
                                                 MetroFlickrViewer.FlickrHandler.PhotoHash[response.photo.id].setBindingProperties();
 
                                                 MetroFlickrViewer.FlickrHandler.CurrentRequests.push(WinJS.xhr({ url: MetroFlickrViewer.FlickrHandler.getPhotoSizesUrl(item.id) })
@@ -170,11 +178,11 @@ MetroFlickrViewer.FlickrHandler = {
 
     // method to help in getting flickr urls
     getSearchUrl: function () {
-        return this.flickr_service_url + this.api_key + '&method=flickr.photos.search&user_id=' + this.CurrentUserId + '&page=' + this.CurrentPage;
+        return this.flickr_service_url + this.api_key + '&method=flickr.photos.search&user_id=' + MetroFlickrViewer.FlickrUser.userId + '&page=' + this.CurrentPage;
     },
 
     getUserIdUrl: function () {
-        return this.flickr_service_url + this.api_key + '&method=flickr.people.findByUsername&username=' + this.CurrentUserName;
+        return this.flickr_service_url + this.api_key + '&method=flickr.people.findByUsername&username=' + MetroFlickrViewer.FlickrUser.userName;
     },
 
     getPhotoDetailUrl: function (photoId) {
@@ -209,5 +217,15 @@ MetroFlickrViewer.FlickrHandler = {
         }
 
         return groupPhotos[Math.floor(Math.random() * groupPhotos.length)];
+    },
+
+    isConnected: function () {
+        var profile = Windows.Networking.Connectivity.NetworkInformation.getInternetConnectionProfile();
+        if (profile) {
+            return (profile.getNetworkConnectivityLevel() != Windows.Networking.Connectivity.NetworkConnectivityLevel.none);
+        }
+        else {
+            return false;
+        }
     }
 };
