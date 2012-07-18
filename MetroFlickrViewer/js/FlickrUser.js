@@ -40,17 +40,24 @@ MetroFlickrViewer.FlickrUser = new (function () {
     var fileName = '';
     Object.defineProperty(this, "fileName", {
         get: function () {
-            return fileName + '.json';
+            return userName + '.json';
         }
     });
 
     this.saveData = function () {
-        data.photoData = JSON.stringify(MetroFlickrViewer.FlickrHandler.PhotoHash);
-        data.userName = this.userName;
-        data.userId = this.userId;
-        data.currentPage = MetroFlickrViewer.FlickrHandler.CurrentPage;
+        if (MetroFlickrViewer.FlickrUser.userId != '' &&
+           MetroFlickrViewer.FlickrUser.userId != undefined &&
+           MetroFlickrViewer.FlickrUser.userName != '' &&
+           MetroFlickrViewer.FlickrUser.userName != undefined) {
+            MetroFlickrViewer.FlickrUser.data.photoData = JSON.stringify(MetroFlickrViewer.FlickrHandler.PhotoHash);
+            MetroFlickrViewer.FlickrUser.data.userName = MetroFlickrViewer.FlickrUser.userName;
+            MetroFlickrViewer.FlickrUser.data.userId = MetroFlickrViewer.FlickrUser.userId;
+            MetroFlickrViewer.FlickrUser.data.currentPage = MetroFlickrViewer.FlickrHandler.CurrentPage;
+        } else {
+            MetroFlickrViewer.FlickrUser.data = {};
+        }
 
-        local.writeText(this.fileName, JSON.stringify(this.data)).then(
+        local.writeText(MetroFlickrViewer.FlickrUser.fileName, JSON.stringify(MetroFlickrViewer.FlickrUser.data)).then(
             function (result) {
             },
             function (errorMessage) {
@@ -61,16 +68,26 @@ MetroFlickrViewer.FlickrUser = new (function () {
     };
 
     this.loadData = function () {
-        local.readText(this.fileName).then(
-            function (data) {
-                this.data = JSON.parse(data);
-                MetroFlickrViewer.FlickrHandler.PhotoHash = JSON.parse(this.data.photoData);
-                MetroFlickrViewer.FlickrHandler.CurrentPage = this.data.currentPage;
-            },
-            function(errorMessage){
-                console.log(errorMessage);
-            }
-        );
+        return new WinJS.Promise(function (complete) {
+            local.readText(MetroFlickrViewer.FlickrUser.fileName).then(
+                function (data) {
+                    if (data != undefined && data != '') {
+                        MetroFlickrViewer.FlickrUser.data = JSON.parse(data);
+
+                        if (data != '{}') {
+                            MetroFlickrViewer.FlickrHandler.PhotoHash = JSON.parse(MetroFlickrViewer.FlickrUser.data.photoData);
+                            MetroFlickrViewer.FlickrHandler.CurrentPage = MetroFlickrViewer.FlickrUser.data.currentPage;
+                            MetroFlickrViewer.FlickrUser.userId = MetroFlickrViewer.FlickrUser.data.userId;
+                        }
+                    }
+
+                    complete();
+                },
+                function (errorMessage) {
+                    console.log(errorMessage);
+                }
+            );
+        });
     };
 
     this.dataFileExists = function () {

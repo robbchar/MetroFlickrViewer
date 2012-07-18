@@ -158,14 +158,20 @@
                                         var lastUser = JSON.parse(result).lastUser;
                                         if (lastUser != '' && lastUser != undefined) {
                                             MetroFlickrViewer.FlickrUser.userName = lastUser;
-                                            MetroFlickrViewer.FlickrUser.loadData();
+                                            MetroFlickrViewer.FlickrUser.loadData().then(
+                                                function () {
+                                                    that.initUI();
 
-                                            that.initUI();
-                                            if (MetroFlickrViewer.FlickrHandler.CurrentPage == 0) {
-                                                MetroFlickrViewer.FlickrHandler.startGettingPhotos();
-                                            } else {
-                                                MetroFlickrViewer.FlickrHandler.resumeGettingPhotos();
-                                            }
+                                                    if (MetroFlickrViewer.FlickrUser.userId != '' && MetroFlickrViewer.FlickrUser.userId != undefined) {
+                                                        MetroFlickrViewer.FlickrHandler.resumeGettingPhotos();
+                                                    } else {
+                                                        MetroFlickrViewer.FlickrHandler.startGettingPhotos();
+                                                    }
+                                                },
+                                                function (errorMessage) {
+                                                    console.error(errorMessage);
+                                                }
+                                            );
                                         } else {
                                             WinJS.UI.SettingsFlyout.showSettings(setUserKey, setUserConfigPage);
                                         }

@@ -13,7 +13,6 @@ MetroFlickrViewer.FlickrHandler = {
     ErrorCallback: undefined, // error callback
 
     startGettingPhotos: function (userName) {
-        if (this.setCurrentUserName(userName) || this.CurrentPage == 0) {
             // start at the first page
             this.CurrentPage = 1;
 
@@ -26,7 +25,6 @@ MetroFlickrViewer.FlickrHandler = {
 
             // when the user name is gotten get the associated id
             this.getUserId();
-        }
     },
 
     resumeGettingPhotos: function () {
@@ -45,16 +43,16 @@ MetroFlickrViewer.FlickrHandler = {
 
         this.CurrentRequests = [];
     },
-    setCurrentUserName: function (userName) {
-        if (userName != MetroFlickrViewer.FlickrUser.userName) {
-            MetroFlickrViewer.FlickrUser.userName = userName;
+    //setCurrentUserName: function (userName) {
+    //    if (userName != MetroFlickrViewer.FlickrUser.userName) {
+    //        MetroFlickrViewer.FlickrUser.userName = userName;
 
-            // the username has changed, return true
-            return true;
-        }
+    //        // the username has changed, return true
+    //        return true;
+    //    }
 
-        return false;
-    },
+    //    return false;
+    //},
 
     getUserId: function () {
         if (this.CurrentStatus == 'none') {

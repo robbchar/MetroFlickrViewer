@@ -21,10 +21,10 @@
         // Windows.UI.Notifications.TileTemplateType.TileSquareImage
         var wideTileXml = '<tile>';
         wideTileXml += '<visual>';
-        wideTileXml += '<binding template="TileWideImage">';
+        wideTileXml += '<binding template="TileWideImage" branding="none">';
         wideTileXml += '<image id="1" src="' + flickrPhoto.backgroundImageSmall + '" alt="' + flickrPhoto.getFormattedPhotoDate() + '"/>';
         wideTileXml += '</binding>';
-        wideTileXml += '<binding template="TileSquareImage">';
+        wideTileXml += '<binding template="TileSquareImage" branding="none">';
         wideTileXml += '<image id="1" src="' + flickrPhoto.backgroundImageSmall + '" alt="' + flickrPhoto.getFormattedPhotoDate() + '"/>';
         wideTileXml += '</binding>';
         wideTileXml += '</visual>';
