@@ -120,7 +120,7 @@
 
                 // this happens when the app is shutting down
                 app.oncheckpoint = function (eventInfo) {
-                    eventInfo.setPromise(MetroFlickrViewer.FlickrUser.saveData());
+                    //eventInfo.setPromise(MetroFlickrViewer.FlickrUser.saveData());
 
                     // save the current config
                     var previousData = {
@@ -146,55 +146,9 @@
                     }
                 });
 
-                var that = this;
-                var setUserKey = 'setUser';
-                var setUserConfigPage = '/pages/SetUserFlyout.html';
-                app.local.exists(configFileName).then(
-                    function (result) {
-                        if (result) {
-                            app.local.readText(configFileName).then(
-                                function (result) {
-                                    if (result) {
-                                        var lastUser = JSON.parse(result).lastUser;
-                                        if (lastUser != '' && lastUser != undefined) {
-                                            MetroFlickrViewer.FlickrUser.userName = lastUser;
-                                            MetroFlickrViewer.FlickrUser.loadData().then(
-                                                function () {
-                                                    that.initUI();
-
-                                                    if (MetroFlickrViewer.FlickrUser.userId != '' && MetroFlickrViewer.FlickrUser.userId != undefined) {
-                                                        MetroFlickrViewer.FlickrHandler.resumeGettingPhotos();
-                                                    } else {
-                                                        MetroFlickrViewer.FlickrHandler.startGettingPhotos();
-                                                    }
-                                                },
-                                                function (errorMessage) {
-                                                    console.error(errorMessage);
-                                                }
-                                            );
-                                        } else {
-                                            WinJS.UI.SettingsFlyout.showSettings(setUserKey, setUserConfigPage);
-                                        }
-                                    } else {
-                                        WinJS.UI.SettingsFlyout.showSettings(setUserKey, setUserConfigPage);
-                                    }
-                                },
-                                function (errorMessage) {
-                                    WinJS.UI.SettingsFlyout.showSettings(setUserKey, setUserConfigPage);
-                                }
-                            )
-                        } else {
-                            WinJS.UI.SettingsFlyout.showSettings(setUserKey, setUserConfigPage);
-                        }
-                    },
-                    function (errorMessage) {
-                        WinJS.UI.SettingsFlyout.showSettings(setUserKey, setUserConfigPage);
-                    }
-                );
+                this.startGettingPhotos();
             }
 
-            //var groupeditemslist = document.querySelector(".groupeditemslist");
-            //groupeditemslist.innerHTML = '';
             var listView = document.querySelector(".groupeditemslist").winControl;
             listView.groupHeaderTemplate = document.querySelector(".headerTemplate");
             listView.itemTemplate = document.querySelector(".itemtemplate");
@@ -252,5 +206,40 @@
 
             messagedialogpopup.showAsync();
         },
+
+        startGettingPhotos: function () {
+            var that = this;
+            var setUserKey = 'setUser';
+            var setUserConfigPage = '/pages/SetUserFlyout.html';
+            app.local.exists(configFileName).then(
+                function (result) {
+                    if (result) {
+                        app.local.readText(configFileName).then(
+                            function (result) {
+                                if (result) {
+                                    var lastUser = JSON.parse(result).lastUser;
+                                    if (lastUser != '' && lastUser != undefined) {
+                                        that.initUI();
+                                        MetroFlickrViewer.FlickrHandler.startGettingPhotos(lastUser);
+                                    } else {
+                                        WinJS.UI.SettingsFlyout.showSettings(setUserKey, setUserConfigPage);
+                                    }
+                                } else {
+                                    WinJS.UI.SettingsFlyout.showSettings(setUserKey, setUserConfigPage);
+                                }
+                            },
+                            function (errorMessage) {
+                                WinJS.UI.SettingsFlyout.showSettings(setUserKey, setUserConfigPage);
+                            }
+                        )
+                    } else {
+                        WinJS.UI.SettingsFlyout.showSettings(setUserKey, setUserConfigPage);
+                    }
+                },
+                function (errorMessage) {
+                    WinJS.UI.SettingsFlyout.showSettings(setUserKey, setUserConfigPage);
+                }
+            );
+        }
     });
 })();

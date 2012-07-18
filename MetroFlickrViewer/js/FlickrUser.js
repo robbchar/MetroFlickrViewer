@@ -49,7 +49,7 @@ MetroFlickrViewer.FlickrUser = new (function () {
            MetroFlickrViewer.FlickrUser.userId != undefined &&
            MetroFlickrViewer.FlickrUser.userName != '' &&
            MetroFlickrViewer.FlickrUser.userName != undefined) {
-            MetroFlickrViewer.FlickrUser.data.photoData = JSON.stringify(MetroFlickrViewer.FlickrHandler.PhotoHash);
+            MetroFlickrViewer.FlickrUser.data.photoData = MetroFlickrViewer.FlickrHandler.PhotoHash;
             MetroFlickrViewer.FlickrUser.data.userName = MetroFlickrViewer.FlickrUser.userName;
             MetroFlickrViewer.FlickrUser.data.userId = MetroFlickrViewer.FlickrUser.userId;
             MetroFlickrViewer.FlickrUser.data.currentPage = MetroFlickrViewer.FlickrHandler.CurrentPage;
@@ -75,7 +75,7 @@ MetroFlickrViewer.FlickrUser = new (function () {
                         MetroFlickrViewer.FlickrUser.data = JSON.parse(data);
 
                         if (data != '{}') {
-                            MetroFlickrViewer.FlickrHandler.PhotoHash = JSON.parse(MetroFlickrViewer.FlickrUser.data.photoData);
+                            MetroFlickrViewer.FlickrHandler.addPhotosToHash(JSON.parse(MetroFlickrViewer.FlickrUser.data.photoData));
                             MetroFlickrViewer.FlickrHandler.CurrentPage = MetroFlickrViewer.FlickrUser.data.currentPage;
                             MetroFlickrViewer.FlickrUser.userId = MetroFlickrViewer.FlickrUser.data.userId;
                         }

@@ -13,18 +13,20 @@ MetroFlickrViewer.FlickrHandler = {
     ErrorCallback: undefined, // error callback
 
     startGettingPhotos: function (userName) {
-            // start at the first page
-            this.CurrentPage = 1;
+        MetroFlickrViewer.FlickrUser.userName = userName;
 
-            // init the photos
-            this.PhotoHash = {};
+        // start at the first page
+        this.CurrentPage = 1;
 
-            this.cancelRequests();
+        // init the photos
+        this.PhotoHash = {};
 
-            this.CurrentStatus = 'none';
+        this.cancelRequests();
 
-            // when the user name is gotten get the associated id
-            this.getUserId();
+        this.CurrentStatus = 'none';
+
+        // when the user name is gotten get the associated id
+        this.getUserId();
     },
 
     resumeGettingPhotos: function () {
@@ -43,16 +45,6 @@ MetroFlickrViewer.FlickrHandler = {
 
         this.CurrentRequests = [];
     },
-    //setCurrentUserName: function (userName) {
-    //    if (userName != MetroFlickrViewer.FlickrUser.userName) {
-    //        MetroFlickrViewer.FlickrUser.userName = userName;
-
-    //        // the username has changed, return true
-    //        return true;
-    //    }
-
-    //    return false;
-    //},
 
     getUserId: function () {
         if (this.CurrentStatus == 'none') {
@@ -117,8 +109,7 @@ MetroFlickrViewer.FlickrHandler = {
                                                             urlParts = urlParts[0].split('/');
                                                             var photoId = urlParts[urlParts.length - 1];
 
-                                                            MetroFlickrViewer.FlickrHandler.PhotoHash[photoId].setFlickrPhotoSizes(response.sizes);
-                                                            MetroFlickrViewer.FlickrHandler.PhotoHash[photoId].setSizeBindingProperties();
+                                                            MetroFlickrViewer.FlickrHandler.PhotoHash[photoId].flickrPhotoSizes = response.sizes;
 
                                                             if (MetroFlickrViewer.FlickrHandler.PhotoReadyCallback) {
                                                                 MetroFlickrViewer.FlickrHandler.PhotoReadyCallback(MetroFlickrViewer.FlickrHandler.PhotoHash[photoId]);
@@ -131,7 +122,7 @@ MetroFlickrViewer.FlickrHandler = {
                                                     }));
 
                                                 if (MetroFlickrViewer.FlickrHandler.PhotoHash[response.photo.id]) {
-                                                    MetroFlickrViewer.FlickrHandler.PhotoHash[response.photo.id].setFlickrInfo(response.photo);
+                                                    MetroFlickrViewer.FlickrHandler.PhotoHash[response.photo.id].flickrInfo = response.photo;
                                                 }
 
                                                 //if (MetroFlickrViewer.FlickrHandler.PhotoReadyCallback) {
@@ -171,6 +162,16 @@ MetroFlickrViewer.FlickrHandler = {
                     // progress
                 }
             ));
+        }
+    },
+
+    addPhotosToHash: function (photoData) {
+        for (var key in photoData) {
+            MetroFlickrViewer.FlickrHandler.PhotoHash[key].flickrPhoto = photoData[key].flickrPhoto;
+            MetroFlickrViewer.FlickrHandler.PhotoHash[key].flickrPhotoSizes = photoData[key].flickrPhotoSizes;
+            MetroFlickrViewer.FlickrHandler.PhotoHash[key].flickrInfo = photoData[key].flickrInfo;
+
+            MetroFlickrViewer.FlickrHandler.PhotoReadyCallback(photoData[key]);
         }
     },
 

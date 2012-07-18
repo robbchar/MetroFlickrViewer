@@ -13,22 +13,26 @@ MetroFlickrViewer.FlickrPhoto = function (initPhoto) {
     });
 
     var flickrPhotoSizes = '';
-    this.setFlickrPhotoSizes = function (photoSizes) {
-        flickrPhotoSizes = photoSizes;
-        this.setSizeBindingProperties();
-    }
-    this.getFlickrPhotoSizes = function () {
-        return flickrPhotoSizes;
-    }
+    Object.defineProperty(this, "flickrPhotoSizes", {
+        get: function () {
+            return flickrPhotoSizes;
+        },
+        set: function (photoSizes) {
+            flickrPhotoSizes = photoSizes;
+            this.setSizeBindingProperties();
+        }
+    });
 
     var flickrInfo = undefined;
-    this.setFlickrInfo = function (info) {
-        flickrInfo = info;
-        this.setBindingProperties();
-    }
-    this.getFlickrInfo = function () {
-        return flickrInfo;
-    }
+    Object.defineProperty(this, "flickrInfo", {
+        get: function () {
+            return flickrInfo;
+        },
+        set: function (info) {
+            flickrInfo = info;
+            this.setBindingProperties();
+        }
+    });
 
     this.setBindingProperties = function () {
         this.setTitle();
@@ -87,22 +91,22 @@ MetroFlickrViewer.FlickrPhoto = function (initPhoto) {
 
     this.subtitle = undefined;
     this.setSubTitle = function () {
-        if (flickrInfo != undefined) {
-            this.subtitle = flickrInfo.title._content;
+        if (this.flickrInfo != undefined) {
+            this.subtitle = this.flickrInfo.title._content;
         }
     }
 
     this.description = undefined;
     this.setDescription = function () {
-        if (flickrInfo != undefined) {
-            this.description = flickrInfo.description._content;
+        if (this.flickrInfo != undefined) {
+            this.description = this.flickrInfo.description._content;
         }
     }
 
     this.content = undefined;
     this.setContent = function () {
-        if (flickrInfo != undefined) {
-            this.content = flickrInfo.description._content;
+        if (this.flickrInfo != undefined) {
+            this.content = this.flickrInfo.description._content;
         }
     }
 
@@ -138,8 +142,8 @@ MetroFlickrViewer.FlickrPhoto = function (initPhoto) {
 
     // utility functions
     this.getPhotoTakenDate = function () {
-        if (flickrInfo != undefined) {
-            var dateParts = flickrInfo.dates.taken.split(' ');
+        if (this.flickrInfo != undefined) {
+            var dateParts = this.flickrInfo.dates.taken.split(' ');
             var yearMonthDay = dateParts[0].split('-');
             var hoursMinutesSeconds = dateParts[1].split(':');
             var date = new Date(yearMonthDay[0],
@@ -190,4 +194,13 @@ MetroFlickrViewer.FlickrPhoto = function (initPhoto) {
 
         return m_names[date.getMonth()]
     }
+
+    this.toJSON = function (key) {
+        var replacement = new Object();
+        replacement.flickrPhoto = this.flickrPhoto;
+        replacement.flickrPhotoSizes = this.flickrPhotoSizes;
+        replacement.flickrInfo = this.flickrInfo;
+
+        return replacement;
+    };
 }
