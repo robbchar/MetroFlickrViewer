@@ -19,7 +19,10 @@
                     onblur="if (this.value == '') { this.value = MetroFlickrViewer.FlickrUser.userName; }"
                     onfocus="if (this.value == MetroFlickrViewer.FlickrUser.userName) { this.value = ''; }" />
                 <button type="button" class="submitButton"
-                    onclick="GroupedItems.initUI(document.querySelector('.usernameInput').value);">
+                    onclick="
+                        GroupedItems.initUI();
+                        MetroFlickrViewer.FlickrHandler.startGettingPhotos(document.querySelector('.usernameInput').value);
+                    ">
                     Set</button>
             </div>
         </div>

@@ -48,6 +48,7 @@ MetroFlickrViewer.FlickrUser = new (function () {
         data.photoData = JSON.stringify(MetroFlickrViewer.FlickrHandler.PhotoHash);
         data.userName = this.userName;
         data.userId = this.userId;
+        data.currentPage = MetroFlickrViewer.FlickrHandler.CurrentPage;
 
         local.writeText(this.fileName, JSON.stringify(this.data)).then(
             function (result) {
@@ -61,8 +62,10 @@ MetroFlickrViewer.FlickrUser = new (function () {
 
     this.loadData = function () {
         local.readText(this.fileName).then(
-            function (result) {
-
+            function (data) {
+                this.data = JSON.parse(data);
+                MetroFlickrViewer.FlickrHandler.PhotoHash = JSON.parse(this.data.photoData);
+                MetroFlickrViewer.FlickrHandler.CurrentPage = this.data.currentPage;
             },
             function(errorMessage){
                 console.log(errorMessage);
@@ -83,6 +86,4 @@ MetroFlickrViewer.FlickrUser = new (function () {
         // the file was not found for some reason
         return false;
     }
-
-
 })

@@ -63,6 +63,7 @@
     <Content Include="js\FlickrPhoto.js" />
     <Content Include="js\FlickrUser.js" />
     <Content Include="js\navigator.js" />
+    <Content Include="js\tileNotification.js" />
     <Content Include="pages\itemDetail\itemDetail.css" />
     <Content Include="pages\itemDetail\itemDetail.html" />
     <Content Include="pages\itemDetail\itemDetail.js" />

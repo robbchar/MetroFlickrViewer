@@ -30,7 +30,7 @@
                 }
             }));
 
-
+            TileNotification.Initialize();
         }
     });
 

@@ -108,10 +108,7 @@
                     initializeLayout: this.initializeLayout,
                     photoReady: this.photoReady,
                     ShowPopUp: this.showPopUp,
-                    FlickError: this.flickError,
-                    SendTile: this.sendTileWebImageNotificationWithXml,
-                    RotateTile: this.rotateTileWebImageNotificationWithXml,
-                    CreateTile: this.createTile
+                    FlickError: this.flickError
                 });
 
                 app.onsettings = function (e) {
@@ -140,8 +137,8 @@
                     // populates the page elements with the app's data.
                     ready: function (element, options) {
                         var userName = MetroFlickrViewer.FlickrUser.userName;
-                        if(userName == undefined){
-                            userName ='';
+                        if (userName == undefined) {
+                            userName = '';
                         }
 
                         element.querySelector('.usernameInput').value = userName;
@@ -150,6 +147,8 @@
                 });
 
                 var that = this;
+                var setUserKey = 'setUser';
+                var setUserConfigPage = '/pages/SetUserFlyout.html';
                 app.local.exists(configFileName).then(
                     function (result) {
                         if (result) {
@@ -157,32 +156,35 @@
                                 function (result) {
                                     if (result) {
                                         var lastUser = JSON.parse(result).lastUser;
-                                        if (lastUser != '') {
-                                            that.initUI(lastUser);
+                                        if (lastUser != '' && lastUser != undefined) {
+                                            MetroFlickrViewer.FlickrUser.userName = lastUser;
+                                            MetroFlickrViewer.FlickrUser.loadData();
+
+                                            that.initUI();
+                                            if (MetroFlickrViewer.FlickrHandler.CurrentPage == 0) {
+                                                MetroFlickrViewer.FlickrHandler.startGettingPhotos();
+                                            } else {
+                                                MetroFlickrViewer.FlickrHandler.resumeGettingPhotos();
+                                            }
                                         } else {
-                                            WinJS.UI.SettingsFlyout.showSettings("setUser", "/pages/SetUserFlyout.html");
+                                            WinJS.UI.SettingsFlyout.showSettings(setUserKey, setUserConfigPage);
                                         }
                                     } else {
-                                        WinJS.UI.SettingsFlyout.showSettings("setUser", "/pages/SetUserFlyout.html");
+                                        WinJS.UI.SettingsFlyout.showSettings(setUserKey, setUserConfigPage);
                                     }
                                 },
                                 function (errorMessage) {
-                                    WinJS.UI.SettingsFlyout.showSettings("setUser", "/pages/SetUserFlyout.html");
+                                    WinJS.UI.SettingsFlyout.showSettings(setUserKey, setUserConfigPage);
                                 }
                             )
                         } else {
-                            WinJS.UI.SettingsFlyout.showSettings("setUser", "/pages/SetUserFlyout.html");
+                            WinJS.UI.SettingsFlyout.showSettings(setUserKey, setUserConfigPage);
                         }
                     },
                     function (errorMessage) {
-                        WinJS.UI.SettingsFlyout.showSettings("setUser", "/pages/SetUserFlyout.html");
+                        WinJS.UI.SettingsFlyout.showSettings(setUserKey, setUserConfigPage);
                     }
                 );
-
-                var tileUpdateManager = Notifications.TileUpdateManager,
-                    tileUpdater = tileUpdateManager.createTileUpdaterForApplication();
-                tileUpdater.enableNotificationQueue(true);
-                tileUpdater.clear();
             }
 
             //var groupeditemslist = document.querySelector(".groupeditemslist");
@@ -219,25 +221,22 @@
 
         photoReady: function (flickrPhoto) {
             Data.addItem(flickrPhoto);
-            //GroupedItems.SendTile(flickrPhoto);
+            TileNotification.AddTile(flickrPhoto);
         },
 
         flickError: function (message) {
             GroupedItems.ShowPopUp('Flickr Api Error', message);
         },
 
-        initUI: function (newUserName) {
-            if (MetroFlickrViewer.FlickrUser.userName != newUserName) {
-                Data.clearItems();
+        initUI: function () {
+            Data.clearItems();
+            var isConnected = MetroFlickrViewer.FlickrHandler.isConnected();
 
-                var isConnected = MetroFlickrViewer.FlickrHandler.startGettingPhotos(newUserName);
-
-                if (isConnected == true) {
-                    MetroFlickrViewer.FlickrHandler.PhotoReadyCallback = this.photoReady;
-                    MetroFlickrViewer.FlickrHandler.ErrorCallback = GroupedItems.FlickError;
-                } else {
-                    GroupedItems.ShowPopUp('No Connectivity!', 'You must be connected to the Internet for this application to work');
-                }
+            if (isConnected == true) {
+                MetroFlickrViewer.FlickrHandler.PhotoReadyCallback = this.photoReady;
+                MetroFlickrViewer.FlickrHandler.ErrorCallback = GroupedItems.FlickError;
+            } else {
+                GroupedItems.ShowPopUp('No Connectivity!', 'You must be connected to the Internet for this application to work');
             }
         },
 
@@ -247,79 +246,5 @@
 
             messagedialogpopup.showAsync();
         },
-
-        sendTileWebImageNotificationWithXml: function (flickrPhoto) {
-            // get a XML DOM version of a specific template by using getTemplateContent
-            //var tileXml = Notifications.TileUpdateManager.getTemplateContent(Notifications.TileTemplateType.TileWideSmallImageAndText01);
-            var tileXml = Notifications.TileUpdateManager.getTemplateContent(30);
-
-            // get the text attributes for this template and fill them in
-            // <tile>
-            //<visual>
-            //<binding template=\"TileSquareImage\"><image id=\"1\" src=\"\"/>
-            //</binding>
-            //</visual>
-            //</tile>
-            var tileTextAttributes = tileXml.getElementsByTagName("text");
-            tileTextAttributes[0].appendChild(tileXml.createTextNode(flickrPhoto.subtitle));
-
-            // get the image attributes for this template and fill them in
-            var tileImageAttributes = tileXml.getElementsByTagName("image");
-            tileImageAttributes[0].setAttribute("src", flickrPhoto.backgroundImageSmall);
-
-            // fill in a version of the square template returned by GetTemplateContent
-            var squareTileXml = Notifications.TileUpdateManager.getTemplateContent(Notifications.TileTemplateType.tileSquareImage);
-            var squareTileImageAttributes = squareTileXml.getElementsByTagName("image");
-            squareTileImageAttributes[0].setAttribute("src", flickrPhoto.backgroundImageSmall);
-
-            // include the square template into the notification
-            var node = tileXml.importNode(squareTileXml.getElementsByTagName("binding").item(0), true);
-            tileXml.getElementsByTagName("visual").item(0).appendChild(node);
-
-            // create the notification from the XML
-            var tileNotification = new Notifications.TileNotification(tileXml);
-
-            // send the notification to the app's application tile
-            Notifications.TileUpdateManager.createTileUpdaterForApplication().update(tileNotification);
-        },
-
-        rotateTileWebImageNotificationWithXml: function (number) {
-            // send the notification to the app's application tile
-            var currentTime = new Date();
-            var dueTime = new Date(currentTime.getTime() + 5 * 1000);
-
-            // Create the notification object
-            //var futureTile = new Notifications.ScheduledTileNotification(this.CreateTile(i + 1), dueTime);
-            var tileXml = this.CreateTile(number);
-            var futureTile = new Notifications.TileNotification(tileXml);
-            futureTile.tag = "Tile" + number;
-
-            Notifications.TileUpdateManager.createTileUpdaterForApplication().update(futureTile);
-            console.log(tileXml.getXml());
-        },
-
-        createTile: function (number) {
-            // get a XML DOM version of a specific template by using getTemplateContent
-            var tileXml = Notifications.TileUpdateManager.getTemplateContent(30);
-            var numberImage = 'http://www.allkidsnetwork.com/coloring-pages/images/Numbers/small/numbers-' + number + '.jpg';
-
-            var tileTextAttributes = tileXml.getElementsByTagName("text");
-            tileTextAttributes[0].appendChild(tileXml.createTextNode('This is number ' + number));
-
-            // get the image attributes for this template and fill them in
-            var tileImageAttributes = tileXml.getElementsByTagName("image");
-            tileImageAttributes[0].setAttribute("src", numberImage);
-
-            // fill in a version of the square template returned by GetTemplateContent
-            var squareTileXml = Notifications.TileUpdateManager.getTemplateContent(Notifications.TileTemplateType.tileSquareImage);
-            var squareTileImageAttributes = squareTileXml.getElementsByTagName("image");
-            squareTileImageAttributes[0].setAttribute("src", numberImage);
-
-            // include the square template into the notification
-            var node = tileXml.importNode(squareTileXml.getElementsByTagName("binding").item(0), true);
-            tileXml.getElementsByTagName("visual").item(0).appendChild(node);
-
-            return tileXml;
-        }
     });
 })();
